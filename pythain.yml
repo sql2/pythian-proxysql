@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2019-10-16T15:41:37Z"
+  generation: 64
+  labels:
+    app: pythian-proxysql
+    env: sandbox
+  name: pythian-proxysql
+  namespace: pythian-proxysql
+  resourceVersion: "7516809"
+  selfLink: /apis/apps/v1/namespaces/pythian-proxysql/deployments/pythian-proxysql
+  uid: 706c6284-f02b-11e9-8f3e-42010a800050
+spec:
+  minReadySeconds: 10
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: pythian-proxysql
+      env: sandbox
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pythian-proxysql
+        env: sandbox
+    spec:
+      containers:
+      - image: gcr.io/pythian-proxysql/pythian-proxysql-proxysql@sha256:3ba95101eb7a5aac58523e4c6489956869865452d1cbdbd32b4186a44f2a4500
+        imagePullPolicy: IfNotPresent
+        name: pythian-proxysql-proxysql-sha256
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - image: gcr.io/pythian-proxysql/pythian-proxysql-consul-agent@sha256:7c66fa5e630c4a0d70d662ec8e9d988c05bd471b43323a47e240294fc00a153d
+        imagePullPolicy: IfNotPresent
+        name: pythian-proxysql-consul-agent-sha256
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - image: gcr.io/pythian-proxysql/pythian-proxysql-consul-template@sha256:1e70f4b96614dfd865641bf75784d895a794775a6c51ce6b368387591f3f1918
+        imagePullPolicy: IfNotPresent
+        name: pythian-proxysql-consul-template-sha256
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 2
+  collisionCount: 1
+  conditions:
+  - lastTransitionTime: "2019-10-16T15:41:37Z"
+    lastUpdateTime: "2019-11-11T15:56:55Z"
+    message: ReplicaSet "pythian-proxysql-8589fdbf54" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-11-11T20:41:31Z"
+    lastUpdateTime: "2019-11-11T20:41:31Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 64
+  readyReplicas: 2
+  replicas: 2
+  updatedReplicas: 2
